@@ -61,7 +61,7 @@ export const getOrderById = async (req, res) => {
     if (order.user.toString() !== req.user._id.toString()) {
       return res.status(403).json({ message: "Unauthorized" });
     }
-
+    
     res.json(order);
   } catch (err) {
     res.status(500).json({ message: "Failed to get order", error: err.message });
