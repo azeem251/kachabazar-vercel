@@ -6,7 +6,7 @@ import {
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
-
+import { BACKEND_URL } from '../../utils/api';
 const MyOrdersPage = () => {
   const [orders, setOrders] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -15,7 +15,7 @@ const MyOrdersPage = () => {
 
   const fetchOrders = async () => {
     try {
-      const res = await axios.get("http://localhost:4747/api/order/my-orders", {
+      const res = await axios.get(`${BACKEND_URL}/api/order/my-orders`, {
         withCredentials: true,
       });
       setOrders(res.data);

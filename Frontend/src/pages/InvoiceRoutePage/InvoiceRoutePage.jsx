@@ -5,7 +5,7 @@ import axios from "axios";
 // import InvoicePage from "./InvoiceRoutePage"; // Adjust path if needed
 import InvoicePage from "../../components/InvoicePage/InvoicePage";
 import Swal from "sweetalert2";
-
+import { BACKEND_URL } from '../../utils/api';
 const InvoiceRoutePage = () => {
   const { id } = useParams();
   const [order, setOrder] = useState(null);
@@ -15,7 +15,7 @@ const InvoiceRoutePage = () => {
     let isMounted = true;
     const fetchOrder = async () => {
       try {
-        const res = await axios.get(`http://localhost:4747/api/order/${id}`, {
+        const res = await axios.get(`${BACKEND_URL}/api/order/${id}`, {
           withCredentials: true,
         });
         if (isMounted) setOrder(res.data);

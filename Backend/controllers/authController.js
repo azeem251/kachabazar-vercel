@@ -106,8 +106,9 @@ export const login = async (req, res) => {
   // res.cookie('token', token, { httpOnly: true });
     res.cookie("token", token, {
   httpOnly: true,
-  sameSite: "Lax", // or "None" with `secure: true` if HTTPS
-  maxAge: 7 * 24 * 60 * 60 * 1000, // 7 days
+    secure: true, // render = https
+    sameSite: "none", // frontend & backend are different domains
+    maxAge: 30 * 24 * 60 * 60 * 1000, // 30 days
 });
  user.token = token;
    await user.save();
@@ -124,17 +125,17 @@ export const login = async (req, res) => {
   
 };
 
+
 //  LOGOUT API
 export const logout = (req, res) => {
-  res.clearCookie('token');
-  //  res.clearCookie('token', {
-  //   httpOnly: true,
-  //   sameSite: 'None', // important for cross-origin
-  //   secure: false, // true if using HTTPS
-  //   path: '/',     // make sure it's global
-  //   domain: '192.168.1.34' // <-- set your IP here
-  // });
-  res.status(200).json({ message: 'Logged out successfully' });
+  res.clearCookie("token", {
+    httpOnly: true,
+    secure: true, // keep true if using HTTPS (Render)
+    sameSite: "None", // same as you used while setting cookie
+    path: "/", // global cookie path
+  });
+
+  res.status(200).json({ message: "Logged out successfully" });
 };
 
 // export const getCurrentUser = async (req, res) => {
@@ -198,7 +199,7 @@ export const googleCallback = async (req, res) => {
   res.cookie('token', token, {
     httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'Strict',
+    sameSite: 'None',
     maxAge: 7 * 24 * 60 * 60 * 1000,// 7 days
     //  domain: '192.168.1.34'
   });

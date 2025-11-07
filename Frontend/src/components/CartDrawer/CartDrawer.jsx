@@ -39,7 +39,7 @@ const CartDrawer = ({ open, onClose, focusTargetRef }) => {
   // ✅ Load cart from backend
   useEffect(() => {
     axios
-      .get("http://localhost:4747/api/cart", { withCredentials: true })
+      .get(`${BACKEND_URL}/api/cart`, { withCredentials: true })
       .then((res) => {
         dispatch(setCartItems(res.data.items || []));
       })

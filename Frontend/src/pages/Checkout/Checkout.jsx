@@ -13,7 +13,7 @@ import * as Yup from "yup";
 import Swal from "sweetalert2";
 import DeleteIcon from '@mui/icons-material/Delete';
 import { useNavigate } from "react-router-dom";
-
+import { BACKEND_URL } from '../../utils/api';
 const Checkout = () => {
   const dispatch = useDispatch();
   const stripe = useStripe();
@@ -62,7 +62,7 @@ const Checkout = () => {
 
       try {
         if (values.paymentMethod === "COD") {
-          await axios.post("http://localhost:4747/api/order/confirm", {
+          await axios.post(`${BACKEND_URL}/api/order/confirm`, {
             items: cartItems,
            
             shippingAddress,
@@ -80,7 +80,7 @@ const Checkout = () => {
             return;
           }
 
-          const { data } = await axios.post("http://localhost:4747/api/payment/create", {
+          const { data } = await axios.post(`${BACKEND_URL}/api/payment/create`, {
             items: cartItems,
           
             shippingAddress,
@@ -101,7 +101,7 @@ const Checkout = () => {
           if (result.error) {
             Swal.fire("❌ Payment Failed!", result.error.message, "error");
           } else {
-            await axios.post("http://localhost:4747/api/order/confirm", {
+            await axios.post(`${BACKEND_URL}/api/order/confirm`, {
               items: cartItems,
             
               shippingAddress,
@@ -124,7 +124,7 @@ const Checkout = () => {
   useEffect(() => {
     const checkAuth = async () => {
       try {
-        const res = await axios.get("http://localhost:4747/api/auth/me", { withCredentials: true });
+        const res = await axios.get(`${BACKEND_URL}/api/auth/me`, { withCredentials: true });
         if (!res.data || !res.data.user) throw new Error("Not authenticated");
       } catch (err) {
         Swal.fire({
@@ -209,7 +209,7 @@ const Checkout = () => {
                     <Typography fontWeight="bold">₹{(item.price * item.quantity).toFixed(2)}</Typography>
                     <IconButton color="error" onClick={async () => {
                       try {
-                        await axios.delete(`http://localhost:4747/api/cart/remove/${item.productId}`, { withCredentials: true });
+                        await axios.delete(`${BACKEND_URL}/api/cart/remove/${item.productId}`, { withCredentials: true });
                         dispatch(removeFromCart(item.productId));
                       } catch (err) {
                         console.error("Failed to delete from backend:", err);
