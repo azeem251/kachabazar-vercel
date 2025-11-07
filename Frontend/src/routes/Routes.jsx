@@ -23,6 +23,7 @@ import OrderSuccess from "../pages/OrderSuccess/OrderSuccess";
 import MyOrdersPage from "../pages/MyOrdersPage/MyOrdersPage";
 
 import InvoiceRoutePage from "../pages/InvoiceRoutePage/InvoiceRoutePage";
+// import Weather from "../pages/Weather/Weather";
 
 const router = createBrowserRouter([
     {
@@ -111,7 +112,7 @@ const router = createBrowserRouter([
                         path: "/order/:id",
                         element: <InvoiceRoutePage />
                     },
-
+                    
         ]
 
     }

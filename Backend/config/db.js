@@ -1,13 +1,43 @@
+// import mongoose from "mongoose";
+
+// const connectedDB = async () => {
+//   try {
+//     await mongoose.connect(process.env.MongoDB_URI);
+//     console.log("✅ MongoDB Connected Sucessfully");
+//   } catch (error) {
+//     console.error("❌ MongoDB connection failed", error);
+//     process.exit(1); // Stop server if DB connection fails
+//   }
+// };
+
+// export default connectedDB;
+
+
+
+
+
 import mongoose from "mongoose";
 
-const connectedDB = async () => {
+let isConnected = false;
+
+const connectDB = async () => {
+  if (isConnected) {
+    console.log("🟢 MongoDB already connected");
+    return;
+  }
+
   try {
-    await mongoose.connect(process.env.MongoDB_URI);
-    console.log("✅ MongoDB Connected Sucessfully");
+    const conn = await mongoose.connect(process.env.MONGO_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+
+    isConnected = true;
+    console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
-    console.error("❌ MongoDB connection failed", error);
-    process.exit(1); // Stop server if DB connection fails
+    console.error(`❌ MongoDB Connection Failed: ${error.message}`);
+    process.exit(1);
   }
 };
 
-export default connectedDB;
+export default connectDB;

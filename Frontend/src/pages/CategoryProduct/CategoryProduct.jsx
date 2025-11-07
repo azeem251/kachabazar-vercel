@@ -28,18 +28,7 @@ const CategoryProduct = () => {
   const [minPrice, setMinPrice] = useState('');
   const [maxPrice, setMaxPrice] = useState('');
 
-  // useEffect(() => {
-  //   const fetchProducts = async () => {
-  //     if (!readableCategory) return;
-  //     try {
-  //       const res = await axios.get(`${BACKEND_URL}/api/products?category=${readableCategory}`);
-  //       dispatch(setProducts(res.data));
-  //     } catch (error) {
-  //       console.error('Error fetching products', error);
-  //     }
-  //   };
-  //   fetchProducts();
-  // }, [readableCategory, dispatch]);
+ 
 
   // 🔍 Search and Filter Logic
 
