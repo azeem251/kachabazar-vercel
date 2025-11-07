@@ -13,9 +13,12 @@
 // export default connectedDB;
 
 
+<<<<<<< HEAD
 
 
 
+=======
+>>>>>>> c36930517565bd4259133295607a32531f8ac70c
 import mongoose from "mongoose";
 
 let isConnected = false;
@@ -27,17 +30,32 @@ const connectDB = async () => {
   }
 
   try {
+<<<<<<< HEAD
     const conn = await mongoose.connect(process.env.MONGO_URI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
 
+=======
+    const conn = await mongoose.connect(process.env.MongoDB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+>>>>>>> c36930517565bd4259133295607a32531f8ac70c
     isConnected = true;
     console.log(`✅ MongoDB Connected: ${conn.connection.host}`);
   } catch (error) {
     console.error(`❌ MongoDB Connection Failed: ${error.message}`);
+<<<<<<< HEAD
     process.exit(1);
+=======
+    throw new Error("MongoDB Connection Failed");
+>>>>>>> c36930517565bd4259133295607a32531f8ac70c
   }
 };
 
 export default connectDB;
+<<<<<<< HEAD
+=======
+
+>>>>>>> c36930517565bd4259133295607a32531f8ac70c
