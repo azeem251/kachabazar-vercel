@@ -19,8 +19,8 @@ export const createPaymentIntent = async (req, res) => {
         },
         quantity: item.quantity,
       })),
-      success_url: "https://your-frontend-domain.com/success",
-      cancel_url: "https://your-frontend-domain.com/cancel",
+      success_url: "https://kachabazar-frontend-ebon.vercel.app/success",
+      cancel_url: "https://kachabazar-frontend-ebon.vercel.app/cancel",
     });
 
     res.json({ url: session.url });
