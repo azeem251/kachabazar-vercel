@@ -19,7 +19,7 @@ const app = express();
 
 // ✅ Allowed Origins
 const allowedOrigins = [
-  "https://kachabazar-ui.onrender.com",
+  "https://kachabazar-frontend-ebon.vercel.app",
   "http://localhost:5173",
 ];
 
