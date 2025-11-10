@@ -1,12 +1,9 @@
 import express from "express";
 import dotenv from "dotenv";
 import cors from "cors";
-import mongoose from "mongoose";
 import passport from "passport";
 import session from "express-session";
 import cookieParser from "cookie-parser";
-import path from "path";
-
 import connectDB from "./config/db.js";
 import "./config/passport.js";
 import authRoutes from "./routes/authRoutes.js";
@@ -18,7 +15,6 @@ import paymentRoutes from "./routes/paymentRoutes.js";
 import orderRoutes from "./routes/orderRoutes.js";
 
 dotenv.config();
-
 const app = express();
 
 // ✅ Allowed Origins
@@ -56,17 +52,27 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
-// ✅ MongoDB Connection (Serverless Friendly)
+// ✅ MongoDB Connection (Serverless Safe)
 let isDBConnected = false;
-const connectIfNeeded = async () => {
+async function ensureDBConnection() {
   if (!isDBConnected) {
     await connectDB();
     isDBConnected = true;
+    console.log("✅ MongoDB Connected (Serverless)");
   }
-};
-await connectIfNeeded();
+}
 
-// ✅ Routes
+// ✅ Routes (wrap in middleware so DB always ready)
+app.use(async (req, res, next) => {
+  try {
+    await ensureDBConnection();
+    next();
+  } catch (err) {
+    console.error("❌ MongoDB Error:", err);
+    res.status(500).json({ message: "Database connection error" });
+  }
+});
+
 app.use("/api/auth", authRoutes);
 app.use("/api/products", productRoutes);
 app.use("/api/contact", ContactSendEmail);
@@ -75,10 +81,9 @@ app.use("/api/cart", cartRoutes);
 app.use("/api/payment", paymentRoutes);
 app.use("/api/order", orderRoutes);
 
-// ✅ Default route
 app.get("/", (req, res) => {
   res.send("✅ Backend API is running successfully on Vercel!");
 });
 
-// ✅ Export (Vercel expects this)
+// ✅ Export app for Vercel
 export default app;
